@@ -7,6 +7,7 @@ function [W_wing] = structures(des_vec)
 
 import chord.*
 import MAC.*
+import D_airfoil2.*
 
 global data;
 

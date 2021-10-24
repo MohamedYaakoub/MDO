@@ -1,6 +1,9 @@
 % Constraints
 
 function [c, ceq] = constraints(des_vec)
+
+import wing_area.*
+
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
@@ -17,15 +20,17 @@ global data;
 % ---------- Constraint 1: Tank volume ----------
 % Calculate fuel volume
 V_fuel = W_fuel/data.density_fuel;
+
 % [TODO] Calculate fuel tank volume
 V_tank = 1; 
+
 % Constraint
 c(1) = V_fuel - V_tank * data.f_tank;
 
 % ---------- Constraint 2: Wing loading ---------
 
 % Calculate first wing area and W_TO,max
-S = 1;
+[S, ~, ~] = wing_area(des_vec);
 W_TO_max = data.C_AW + W_wing + W_fuel;
 % Then calculate loading and compare to original one
 WS = W_TO_max/S;
