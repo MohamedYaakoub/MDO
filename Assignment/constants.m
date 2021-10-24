@@ -23,7 +23,7 @@ data.density_al = 2800;             % Density of aliminium [kg/m^3]
 data.stiff_eff_fac = 0.96;          % Stiffened panel efficiency factor [-] (top hat)
 
 % Coordinates of wing sections (1 -> Root, 2 -> Mid, 3 -> Tip)
-[x1, y1, z1] = deal(0, 0, 0);                % [m]
+[x1, y1, z1] = deal(0, 0, 0);         % [m]
 [y2, z2] = deal(8.13, 8.13*tand(6));  % [m] 
 
 % Aircraft performance
@@ -35,7 +35,6 @@ data.h_cr = 11887.2;         % Cruise height [m] (39000 ft)
 data.range = 7445040;        % Design range [m] (4020 nm) (check max payload)
 data.WS_orig = 552.38;       % Original max wing loading [kg/m^2]
 data.C_T = 1.8639e-4;        % Specific fuel consumption [N/Ns]             
-% data.WeWs = exp(range*C_T*V_cr);          % W_end,cr / W_start,cr [-]
 
 % Air at cruise height
 data.density_cr = 0.316406;         % Air density at cruise height [kg/m^3]

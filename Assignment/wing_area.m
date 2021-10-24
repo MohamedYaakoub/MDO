@@ -14,11 +14,14 @@ b2 = des_vec(5);
 
 global data;
 
+% NOTE: aree formulas are for one side of the wing, so they are multiplied
+% by 2 to get the total area for both inner and outer wings
+
 % Area inboard wing
-S1 = 0.5 * (C_r + C_mid) * data.b1;
+S1 = 2 * (0.5 * (C_r + C_mid) * data.b1);
 
 % Area outboard wing
-S2 = 0.5 * (C_mid + C_tip) * b2;
+S2 = 2 * (0.5 * (C_mid + C_tip) * b2);
 
 % Total area
 S = S1 + S2;

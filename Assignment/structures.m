@@ -5,6 +5,9 @@ function [W_wing] = structures(des_vec)
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
 
+import chord.*
+import MAC.*
+
 global data;
 
 % Extract relevant variables from vector:
@@ -134,16 +137,19 @@ load = fopen('b767.load','w');
 
 % File needs lift and pitching moment (dimensional), not coefficients
 
-q = 0.5 * data.density_cr * data.V_cr^2;  % Dynamic pressure
-% [ADD] MAC = 1;
-% [ADD] chord = 1;
+% Array with spanwise positions
+positions = linspace(0, 1, length(Cl));
+
+q = 0.5 * data.density_cr * data.V_cr^2;    % Dynamic pressure
+[MAC_tot, ~, ~] = MAC(des_vec);             % Mean Aerodynamic Chord
+chords = chord(positions, des_vec);         % Chord at each position
+
+
 
 % Arrays with dimensional lift and moment
-L = chord * Cl * q;
-M = chord * MAC * Cm * q;
+L = chords.*Cl * q;
+M = chords.*Cm * MAC_tot * q;
 
-% Spanwise positions
-positions = linspace(0, 1, length(L));
 
 % [Spanwise position, Lift, Pitching moment]
 lines = [positions; L; M]; 
@@ -151,9 +157,27 @@ fprintf(init, '%f %f %f \n', lines);
 
 fclose(load);
 
+% ---------------------------------------------------
+% -------------------- Airfoil files ----------------
+% --------------------------------------------------- 
+airfoil_root = fopen('airfoil_root.dat','w');
+
+% [TODO]
+
+fclose(airfoil_root);
+
+airfoil_tip = fopen('airfoil_tip.dat','w');
+
+% [TODO]
+
+fclose(airfoil_tip);
+
 % Then, run EMWET
+EMWET 767
 
 % Then, retrieve wing weight from the file and return as output
+
+% [TODO]
 
 end
 

@@ -1,6 +1,9 @@
 % Loads
 
 function [Cl, Cm] = loads(des_vec)
+
+import MAC.*
+
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
@@ -20,6 +23,8 @@ Au_r = des_vec(8);
 Al_r = des_vec(9);
 Au_t = des_vec(10);
 Al_t = des_vec(11);
+
+[MAC_tot, ~, ~] = MAC(des_vec);
 
 global data;
 
@@ -58,9 +63,10 @@ AC.Aero.MaxIterIndex = 150;    % Maximum number of Iteration for the
 AC.Aero.V     = data.V_mo;          % flight speed (m/s)
 AC.Aero.rho   = data.density_cr;    % air density  (kg/m3)
 AC.Aero.alt   = data.h_cr;          % flight altitude (m)
-AC.Aero.Re    = 1.14e7;             % reynolds number (based on mean aerodynamic chord)
-AC.Aero.M     = 0.2;                % flight Mach number 
-% AC.Aero.CL    = 0.4;               % lift coefficient - comment this line to run the code for given alpha%
+Re = data.density_cr * MAC_tot * data.V_mo / data.dyn_visc_cr;
+AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic chord)
+AC.Aero.M     = data.M_mo;          % flight Mach number 
+% AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
 AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
 % Q3D solver

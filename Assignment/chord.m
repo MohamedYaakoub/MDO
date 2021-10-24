@@ -15,12 +15,14 @@ taper2 = des_vec(3);
 
 global data;
 
-if y<data.b1
-    chord = 2*S1 / ((1 + taper1) * data.b1) * (1 - (1 - taper1)/data.b1 * abs(2*y));
+% NOTE: Equation takes whole span and area for a wing, since b1/b2 are for
+% half wing, they are multiplied by 2
+if y < data.b1
+    chord = 2*S1 / ((1 + taper1) * (2*data.b1)) * (1 - (1 - taper1)/(2*data.b1) * abs(2*y));
 
 else
     y = y - data.b1;
-    chord = 2*S2 / ((1 + taper2) * b2) * (1 - (1 - taper2)/b2 * abs(2*y));
+    chord = 2*S2 / ((1 + taper2) * (2*b2)) * (1 - (1 - taper2)/(2*b2) * abs(2*y));
 
 end
 
