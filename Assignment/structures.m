@@ -7,6 +7,7 @@ function [W_wing] = structures(des_vec)
 
 import chord.*
 import MAC.*
+import wing_area.*
 import D_airfoil2.*
 
 global data;
@@ -33,7 +34,7 @@ y3 = data.b1 + b2;
 z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 
 % Area
-% TODO S = 1;
+[S, ~, ~] = wing_area(des_vec);
 
 
 % First, create a script that takes the design vector as an
@@ -146,7 +147,6 @@ q = 0.5 * data.density_cr * data.V_cr^2;    % Dynamic pressure
 chords = chord(positions, des_vec);         % Chord at each position
 
 
-
 % Arrays with dimensional lift and moment
 L = chords.*Cl * q;
 M = chords.*Cm * MAC_tot * q;
@@ -154,31 +154,93 @@ M = chords.*Cm * MAC_tot * q;
 
 % [Spanwise position, Lift, Pitching moment]
 lines = [positions; L; M]; 
-fprintf(init, '%f %f %f \n', lines);
+fprintf(load, '%f %f %f \n', lines);
 
 fclose(load);
 
 % ---------------------------------------------------
 % -------------------- Airfoil files ----------------
 % --------------------------------------------------- 
+X_vect = linspace(0,1,75)';
+
+% Root airfoil
 airfoil_root = fopen('airfoil_root.dat','w');
 
-% [TODO]
+% Convert coefficients into coordinates
+[Xtu, Xtl, ~] = D_airfoil2(Au_r, Al_r, X_vect);
+
+% x and y arrays for upper and lower sides
+x_u_root = Xtu(:,1);
+y_u_root = Xtu(:,2);      
+x_l_root = Xtl(:,1);
+y_l_root = Xtl(:,2);
+
+% Upper side
+% Reverse airfoil (start from trailing edge)
+x_u_root = flip(x_u_root);
+y_u_root = flip(y_u_root);
+for point = 1:length(x_u_root)
+format_line = '%f %f \n';
+fprintf(airfoil_root, format_line, x_u_root(point), y_u_root(point));
+end
+
+% Lower side (start from 2 to avoid repeating trailing edge twice)
+for point = 2:length(x_l_root)
+format_line = '%f %f \n';
+fprintf(airfoil_root, format_line, x_l_root(point), y_l_root(point));
+end
 
 fclose(airfoil_root);
 
+% Tip airfoil
 airfoil_tip = fopen('airfoil_tip.dat','w');
 
-% [TODO]
+
+% Convert coefficients into coordinates
+[Xtu, Xtl, ~] = D_airfoil2(Au_t, Al_t, X_vect);
+
+% x and y arrays for upper and lower sides
+x_u_tip = Xtu(:,1);
+y_u_tip = Xtu(:,2);      
+x_l_tip = Xtl(:,1);
+y_l_tip = Xtl(:,2);
+
+% Upper side
+% Reverse airfoil (start from trailing edge)
+x_u_tip = flip(x_u_tip);
+y_u_tip = flip(y_u_tip);
+for point = 1:length(x_u_tip)
+format_line = '%f %f \n';
+fprintf(airfoil_tip, format_line, x_u_tip(point), y_u_tip(point));
+end
+
+% Lower side (start from 2 to avoid repeating trailing edge twice)
+for point = 2:length(x_l_tip)
+format_line = '%f %f \n';
+fprintf(airfoil_tip, format_line, x_l_tip(point), y_l_tip(point));
+end
 
 fclose(airfoil_tip);
 
 % Then, run EMWET
 EMWET 767
 
-% Then, retrieve wing weight from the file and return as output
+% Lastly, retrieve wing weight from the file and return as output
 
-% [TODO]
+% Open weight file
+weight = fopen('767.weight', 'r');
+
+% Read only first line (contains weight)
+weight_line = fgetl(weight);
+
+% Convert line into cell
+% Format of line is: Wing total weight(kg) 4436.79
+W_wing = textscan(weight_line,'%s%s%s%f');
+
+% Weight is the last element in the cell, select and convert to number
+W_wing = W_wing{end};
+
+fclose(weight);
 
 end
 
