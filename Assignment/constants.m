@@ -31,6 +31,7 @@ data.V_cr = 236.644;         % Cruise speed (taken as long range) [m/s] (460 kt)
 % [ADD] data.V_mo = ;           % Maximum operative speed [m/s]
 % [ADD] data.M_cr = ;        % Cruise Mach number [-]
 % [ADD] data.M_mo = ;        % Maximum operative Mach number [-]
+
 data.h_cr = 11887.2;         % Cruise height [m] (39000 ft)
 data.range = 7445040;        % Design range [m] (4020 nm) (check max payload)
 data.WS_orig = 552.38;       % Original max wing loading [kg/m^2]
@@ -43,7 +44,8 @@ data.dyn_visc_cr = 0.0000143226;    % Air dynamic viscosity at cruise height [Pa
 % Other
 data.n_eng_wing = 1;            % Number of engines per wing [-]
 % [ADD] data.eng_pos = 1;               % Spanwise position of engine [-]
+
 data.eng_mass = 4470;           % Mass of one engine [kg]
 data.f_tank = 0.93;             % Tank volume factor [-]
 data.density_fuel = 0.81715e3;  % Fuel density [kg/m^3]
-% data.C_AW = 1;                  % Aircraft less wing mass [kg]
+% [ADD] data.C_AW = 1;                  % Aircraft less wing mass [kg]
