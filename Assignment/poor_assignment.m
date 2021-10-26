@@ -67,20 +67,16 @@ x_l_vec(i,:) = x_u_vec(i,:);
 end
 
 for i = 1:length(y_l_vec(:, 1)) * 0.85
-    for j = 1:length(y_l_vec(1,:))
+    for j = 1:length(y_l_vec(1,:)) - 1
         if (front_spar * chord_vec(i) < x_u_vec(i,j)) && (x_u_vec(i,j)< back_spar * chord_vec(i))
-           volume_rect(j) = (y_u_vec(i,j) - y_l_vec(i,j) ) * chord_vec(i)/length(x_u_vec(i,:));
+%         volume_rect(j) = (y_u_vec(i,j) - y_l_vec(i,j) ) * chord_vec(i)/length(x_u_vec(i,:));
+        volume_rect(j) = (y_u_vec(i,j) - y_l_vec(i,j)) * (x_u_vec(i,j+1) - x_u_vec(i,j));
 volume_airfoil(i) = sum(volume_rect) * (b_1 + b_2) / length(x_u_vec(:,1));
 
         end
     
     end
 end
-sum(volume_airfoil)
-% Y_ = interp1(x,v,xq,'spline');
 
-% 
-% hold on
-% plot(x_u_vec(5,:), y_u_vec(5,:),'b');    %plot upper surface coords
-% plot(x_l_vec(5,:), y_l_vec(5,:),'b');    %plot lower surface coords
-% axis([0,1,-1.5,1.5]);
+sum(volume_airfoil)
+
