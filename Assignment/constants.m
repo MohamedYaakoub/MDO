@@ -23,8 +23,8 @@ data.density_al = 2800;             % Density of aliminium [kg/m^3]
 data.stiff_eff_fac = 0.96;          % Stiffened panel efficiency factor [-] (top hat)
 
 % Coordinates of wing sections (1 -> Root, 2 -> Mid, 3 -> Tip)
-[x1, y1, z1] = deal(0, 0, 0);         % [m]
-[y2, z2] = deal(8.13, 8.13*tand(6));  % [m] 
+[data.x1, data.y1, data.z1] = deal(0, 0, 0);         % [m]
+[data.y2, data.z2] = deal(8.13, 8.13*tand(6));  % [m] 
 
 % Aircraft performance
 data.V_cr = 236.644;         % Cruise speed (taken as long range) [m/s] (460 kt)

@@ -24,6 +24,8 @@ Al_r = des_vec(9);
 Au_t = des_vec(10);
 Al_t = des_vec(11);
 
+disp(des_vec(25))
+
 [MAC_tot, ~, ~] = MAC(des_vec);
 
 global data;
