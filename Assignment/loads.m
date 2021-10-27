@@ -73,7 +73,7 @@ AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to ru
 Res = Q3D_solver(AC);
 
 % For loads, we want Cl and Cm distributions
-Cl = Res.Wing.cl;
-Cm = Res.Wing.cm_c4;
+Cl = Res.Wing.cl';
+Cm = Res.Wing.cm_c4';
 
 end
