@@ -15,10 +15,10 @@ C_t = C_mid * des_vec(3);
 
 b_2 = des_vec(5);
 
-Au_r = des_vec(8);
-Al_r = des_vec(9);
-Au_t = des_vec(10);
-Al_t = des_vec(11);
+Au_r = des_vec(8:13);
+Al_r = des_vec(14:19);
+Au_t = des_vec(20:25);
+Al_t = des_vec(26:31);
 
 
 global data;
@@ -80,6 +80,7 @@ for i = 1:length(y_l_vec(:, 1)) * 0.85
     
     end
 end
+
 V_tank = sum(volume_airfoil);
 
 end

@@ -19,10 +19,10 @@ b2 = des_vec(5);
 twist_mid = des_vec(6);
 twist_tip = des_vec(7);
 
-Au_r = des_vec(8);
-Al_r = des_vec(9);
-Au_t = des_vec(10);
-Al_t = des_vec(11);
+Au_r = des_vec(8:13);
+Al_r = des_vec(14:19);
+Au_t = des_vec(20:25);
+Al_t = des_vec(26:31);
 
 [MAC_tot, ~, ~] = MAC(des_vec);
 

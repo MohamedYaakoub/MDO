@@ -43,10 +43,9 @@ data.dyn_visc_cr = 0.0000143226;    % Air dynamic viscosity at cruise height [Pa
 
 % Other
 data.n_eng_wing = 1;            % Number of engines per wing [-]
-data.eng_pos = 0.3263;          % Spanwise position of engine [-]
+data.eng_pos = 0;               % Spanwise position of engine [-]
 
 data.eng_mass = 4470;           % Mass of one engine [kg]
 data.f_tank = 0.93;             % Tank volume factor [-]
 data.density_fuel = 0.81715e3;  % Fuel density [kg/m^3]
-% UPDATE
-% data.C_AW = 100000;             % Aircraft less wing mass [kg]
+% [ADD] data.C_AW = 1;                  % Aircraft less wing mass [kg]

@@ -3,10 +3,13 @@
 function [Cl, Cm] = loads(des_vec)
 
 import MAC.*
+import wing_area.*
 
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
+
+global data;
 
 % Extract required variables
 C_r = des_vec(1);
@@ -19,16 +22,19 @@ b2 = des_vec(5);
 twist_mid = des_vec(6);
 twist_tip = des_vec(7);
 
-Au_r = des_vec(8);
-Al_r = des_vec(9);
-Au_t = des_vec(10);
-Al_t = des_vec(11);
+Au_r = des_vec(8:13);
+Al_r = des_vec(14:19);
+Au_t = des_vec(20:25);
+Al_t = des_vec(26:31);
 
-disp(des_vec(25))
+W_wing = des_vec(61);
+W_fuel = des_vec(62);
+
+W_TO_max = data.C_AW + W_wing + W_fuel;
 
 [MAC_tot, ~, ~] = MAC(des_vec);
+[S, ~, ~] = wing_area(des_vec);
 
-global data;
 
 % Wing planform geometry
 
@@ -69,7 +75,9 @@ Re = data.density_cr * MAC_tot * data.V_mo / data.dyn_visc_cr;
 AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic chord)
 AC.Aero.M     = data.M_mo;          % flight Mach number 
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
-AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
+% [CHECK IMPLEMENTATION OF n_max]
+AC.Aero.CL = data.n_max * 2 * W_TO_max / (data.density_cr * data.V_mo^2 * S);
+% AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
 % Q3D solver
 Res = Q3D_solver(AC);

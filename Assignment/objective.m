@@ -6,8 +6,10 @@ function [W_TO_max] = objective(des_vec)
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
 
 % Extract relevant variables from vector:
-W_wing = des_vec(15);
-W_fuel = des_vec(16);
+W_wing = des_vec(61);
+W_fuel = des_vec(62);
+
+global data;
 
 W_TO_max = data.C_AW + W_wing + W_fuel;
 

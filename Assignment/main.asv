@@ -32,13 +32,8 @@ Al_r_ub(sign(Al_r) == 1) = Al_r_ub(sign(Al_r) == 1) * 2;
 Al_r_ub(sign(Al_r) == -1) = Al_r_ub(sign(Al_r) == -1) / 2;
 
 Au_t_ub = Au_t * 2;
-% Al_t_ub = Al_t / 2;
+Al_t_ub = Al_t / 2;
 
-Al_t_ub = Al_r;
-Al_t_ub(sign(Al_t) == 1) = Al_t_ub(sign(Al_t) == 1) * 2;
-Al_t_ub(sign(Al_t) == -1) = Al_t_ub(sign(Al_t) == -1) / 2;
-
-% Lower
 Au_r_lb = Au_r / 2;
 % Al_r_lb = Al_r * 2;
 Al_r_lb = Al_r;
@@ -46,13 +41,9 @@ Al_r_lb(sign(Al_r) == 1) = Al_r_lb(sign(Al_r) == 1) / 2;
 Al_r_lb(sign(Al_r) == -1) = Al_r_lb(sign(Al_r) == -1) * 2;
 
 Au_t_lb = Au_t / 2;
-% Al_t_lb = Al_t * 2;
+Al_t_lb = Al_t * 2;
 
-Al_t_lb = Al_r;
-Al_t_lb(sign(Al_t) == 1) = Al_t_lb(sign(Al_t) == 1) * 2;
-Al_t_lb(sign(Al_t) == -1) = Al_t_lb(sign(Al_t) == -1) / 2;
 
-% Airfoil coefficients
 Cl_ub = ones(size(Cl)) * 6;
 Cm_ub = ones(size(Cm)) * 6;
 ub = [26.5, 1, 1, 50, 17.87, 8.15, 8.15, Au_r_ub, Al_r_ub, Au_t_ub, Al_t_ub, Cl_ub, Cm_ub, 40, 1535157/9.80665, 1535157/9.80665];

@@ -29,5 +29,6 @@ data.W_wing = W_wing;
 data.LD_ratio = LD_ratio;
 data.W_fuel = W_fuel;
 
+disp('iteration')
 
 end

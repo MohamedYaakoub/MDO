@@ -6,8 +6,8 @@ function [W_fuel] = performance(des_vec)
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
 
 % Extract relevant variables from vector:
-LD_ratio = des_vec(14);
-W_wing = des_vec(15);
+LD_ratio = des_vec(60);
+W_wing = des_vec(61);
 
 global data;
 

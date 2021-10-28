@@ -20,11 +20,16 @@ C_tip = C_mid * des_vec(3);
 sweep_LE_2 = des_vec(4);
 b2 = des_vec(5);
 
-Cl = des_vec(12);
-Cm = des_vec(13);
+Au_r = des_vec(8:13);
+Al_r = des_vec(14:19);
+Au_t = des_vec(20:25);
+Al_t = des_vec(26:31);
 
-W_wing = des_vec(15);
-W_fuel = des_vec(16);
+Cl = des_vec(32:45);
+Cm = des_vec(46:59);
+
+W_wing = des_vec(61);
+W_fuel = des_vec(62);
 
 % Wing planform geometry
 x2 = C_r - C_mid;
@@ -43,7 +48,7 @@ z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 % ---------------------------------------------------
 % -------------------- Init file --------------------
 % --------------------------------------------------- 
-init = fopen('b767.init','w');
+init = fopen('767.init','w');
 
 % Line 1 [MTOW, ZFW]
 line = [data.C_AW+W_wing+W_fuel, data.C_AW+W_wing];
@@ -121,7 +126,7 @@ format_line = '%f %f %f %f \n';
 fprintf(init, format_line, line);
 
 % Line 16 [f stiffened panel, rib pitch [m]]
-line = [data.stiff_eff_factor, data.rib_pitch];
+line = [data.stiff_eff_fac, data.rib_pitch];
 format_line = '%f %f \n';
 fprintf(init, format_line, line);
 
@@ -135,7 +140,7 @@ fclose(init);
 % ---------------------------------------------------
 % -------------------- Load file --------------------
 % --------------------------------------------------- 
-load = fopen('b767.load','w');
+load = fopen('767.load','w');
 
 % File needs lift and pitching moment (dimensional), not coefficients
 

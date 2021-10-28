@@ -10,8 +10,8 @@ import tank_volume.*
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
 
 % Extract required variables
-W_wing = des_vec(15);
-W_fuel = des_vec(16);
+W_wing = des_vec(61);
+W_fuel = des_vec(62);
 
 global data;
 
@@ -38,10 +38,10 @@ WS = W_TO_max/S;
 c(2) = WS - data.WS_orig;
 
 % Equality constraints for copy variables
-ceq(1) = data.Cl - des_vec(12);
-ceq(2) = data.Cm - des_vec(13);
-ceq(3) = data.LD_ratio - des_vec(14);
-ceq(4) = data.W_wing - des_vec(15);
-ceq(5) = data.W_fuel - des_vec(16);
+ceq(1) = data.Cl - des_vec(32:45);
+ceq(2) = data.Cm - des_vec(46:59);
+ceq(3) = data.LD_ratio - des_vec(60);
+ceq(4) = data.W_wing - des_vec(61);
+ceq(5) = data.W_fuel - des_vec(62);
 
 end
