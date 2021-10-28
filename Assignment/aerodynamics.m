@@ -38,7 +38,7 @@ z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 
 %               x       y       z     chord(m)     twist angle (deg) 
 AC.Wing.Geom = [0       0       0      C_r             0;      % Root
-                x2  data.y2 data.z2    C_mid       twist_mid;  % Mid
+                x2+0.0813  data.y2 data.z2    C_mid       twist_mid;  % Mid
                 x3      y3      z3     C_tip       twist_tip]; % Tip
 
 % Wing incidence angle (degree)
@@ -73,6 +73,6 @@ AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to ru
 Res = Q3D_solver(AC);
 
 % For Aerodynamics, we want L/D ratio as an output
-LD_ratio = Res.CLwing/Res.CDwing;
+LD_ratio = Res.CLwing/(Res.CDwing + 0.002);
 
 end
