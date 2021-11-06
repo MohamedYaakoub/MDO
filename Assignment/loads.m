@@ -5,11 +5,16 @@ function [Cl, Cm] = loads(des_vec)
 import MAC.*
 import wing_area.*
 
+[MAC_tot, ~, ~] = MAC(des_vec);
+[S, ~, ~] = wing_area(des_vec);
+
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
 
 global data;
+
+des_vec = des_vec .* data.x0;
 
 % Extract required variables
 C_r = des_vec(1);
@@ -31,9 +36,6 @@ W_wing = des_vec(61);
 W_fuel = des_vec(62);
 
 W_TO_max = data.C_AW + W_wing + W_fuel;
-
-[MAC_tot, ~, ~] = MAC(des_vec);
-[S, ~, ~] = wing_area(des_vec);
 
 
 % Wing planform geometry

@@ -3,10 +3,13 @@ function [V_tank] = tank_volume(des_vec)
 
 import chord.*
 
+global data;
+
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
 
+des_vec = des_vec .* data.x0;
 
 % Extract required variables
 C_r = des_vec(1);
@@ -20,8 +23,6 @@ Al_r = des_vec(14:19);
 Au_t = des_vec(20:25);
 Al_t = des_vec(26:31);
 
-
-global data;
 
 front_spar = data.x_spar_f;
 back_spar = data.x_spar_r;

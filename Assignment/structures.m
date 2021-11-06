@@ -10,7 +10,12 @@ import MAC.*
 import wing_area.*
 import D_airfoil2.*
 
+[S, ~, ~] = wing_area(des_vec);   % Area
+[MAC_tot, ~, ~] = MAC(des_vec);   % Mean Aerodynamic Chord
+
 global data;
+
+des_vec = des_vec .* data.x0;
 
 % Extract relevant variables from vector:
 C_r = des_vec(1);
@@ -37,9 +42,6 @@ x2 = C_r - C_mid;
 x3 = x2 + b2 * tand(sweep_LE_2);
 y3 = data.b1 + b2;
 z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
-
-% Area
-[S, ~, ~] = wing_area(des_vec);
 
 
 % First, create a script that takes the design vector as an
@@ -148,7 +150,7 @@ load = fopen('767.load','w');
 positions = linspace(0, 1, length(Cl));
 
 q = 0.5 * data.density_cr * data.V_cr^2;    % Dynamic pressure
-[MAC_tot, ~, ~] = MAC(des_vec);             % Mean Aerodynamic Chord
+
 chords = chord(positions, des_vec);         % Chord at each position
 
 

@@ -2,11 +2,18 @@
 
 function [LD_ratio] = aerodynamics(des_vec)
 
+global data;
+
 import MAC.*
+
+[MAC_tot, ~, ~] = MAC(des_vec);
+[S, ~, ~] = wing_area(des_vec);
 
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
+
+des_vec = des_vec .* data.x0;
 
 % Extract required variables
 C_r = des_vec(1);
@@ -24,9 +31,11 @@ Al_r = des_vec(14:19);
 Au_t = des_vec(20:25);
 Al_t = des_vec(26:31);
 
-[MAC_tot, ~, ~] = MAC(des_vec);
+W_wing = des_vec(61);
+W_fuel = des_vec(62);
 
-global data;
+W_TO_max = data.C_AW + W_wing + W_fuel;
+
 
 % Wing planform geometry
 
@@ -67,12 +76,17 @@ Re = data.density_cr * MAC_tot * data.V_cr / data.dyn_visc_cr;
 AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic chord)
 AC.Aero.M     = data.M_cr;                % flight Mach number 
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
-AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
+AC.Aero.CL = 2 * W_TO_max / (data.density_cr * data.V_cr^2 * S);
+% AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
 % Q3D solver
 Res = Q3D_solver(AC);
 
-% For Aerodynamics, we want L/D ratio as an output
+% Print for debugging
+disp(Res.CLwing)
+disp(Res.CDwing)
+
+% For Aerodynamics, we want L/D ratio as an output [UPDATE CD A-W]
 LD_ratio = Res.CLwing/(Res.CDwing + 0.002);
 
 end

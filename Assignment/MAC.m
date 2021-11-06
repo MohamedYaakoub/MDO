@@ -6,9 +6,13 @@ import wing_area.*
 
 [~, S1, S2] = wing_area(des_vec);
 
+global data;
+
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
 % [Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel
+
+des_vec = des_vec .* data.x0;
 
 % Extract required variables
 C_r = des_vec(1);

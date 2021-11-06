@@ -22,7 +22,14 @@ Cl = [0.5440    0.5630    0.5789    0.5930    0.6060    0.6180    0.6294    0.64
 Cm = [-0.1170   -0.1187   -0.1195   -0.1200   -0.1203   -0.1206   -0.1208   -0.1210   -0.1211   -0.1212   -0.1213   -0.1213   -0.1211   -0.1197];
 
 % Full vector
-x0 = [8.57, 0.4, 0.4, 15, 14, 0, 0, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 11535157/3/9.80665, 50825.664/9.80665];
+x0_init = [8.57, 0.4, 0.4, 15, 14, 2, 1, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 1535157/3/9.80665, 50825.664/9.80665];
+
+% Save initial design vector to denormalise it in the disciplines,
+% functions, etc.
+data.x0 = abs(x0_init);
+
+% Normalise design vector
+x0 = x0_init./abs(x0_init);
 
 %  ---------- Upper and lower bounds ----------
 Au_r_ub = Au_r * 2;
@@ -34,7 +41,7 @@ Al_r_ub(sign(Al_r) == -1) = Al_r_ub(sign(Al_r) == -1) / 2;
 Au_t_ub = Au_t * 2;
 % Al_t_ub = Al_t / 2;
 
-Al_t_ub = Al_r;
+Al_t_ub = Al_t;
 Al_t_ub(sign(Al_t) == 1) = Al_t_ub(sign(Al_t) == 1) * 2;
 Al_t_ub(sign(Al_t) == -1) = Al_t_ub(sign(Al_t) == -1) / 2;
 
@@ -48,9 +55,9 @@ Al_r_lb(sign(Al_r) == -1) = Al_r_lb(sign(Al_r) == -1) * 2;
 Au_t_lb = Au_t / 2;
 % Al_t_lb = Al_t * 2;
 
-Al_t_lb = Al_r;
-Al_t_lb(sign(Al_t) == 1) = Al_t_lb(sign(Al_t) == 1) * 2;
-Al_t_lb(sign(Al_t) == -1) = Al_t_lb(sign(Al_t) == -1) / 2;
+Al_t_lb = Al_t;
+Al_t_lb(sign(Al_t) == 1) = Al_t_lb(sign(Al_t) == 1) / 2;
+Al_t_lb(sign(Al_t) == -1) = Al_t_lb(sign(Al_t) == -1) * 2;
 
 % Airfoil coefficients
 Cl_ub = ones(size(Cl)) * 6;
@@ -61,23 +68,43 @@ Cl_lb = ones(size(Cl)) * -6;
 Cm_lb = ones(size(Cm)) * -6;
 lb = [2, 0.05, 0.05, 0, 0, -10, -10, Au_r_lb, Al_r_lb, Au_t_lb, Al_t_lb, Cl_lb, Cm_lb, 5, 42739/9.80665, 10000/9.80665];
 
-% disp(x0)
-disp(Al_r_ub(end) - Al_r_lb(end))
-disp(ub(19))
-disp(lb(19))
-disp(Al_r_ub(5) - Al_r_lb(5))
-disp(ub(18))
-disp(lb(18))
+% Normalise bounds
+ub = ub./abs(x0_init);
+lb = lb./abs(x0_init);
+
+% Print for debugging
+% disp(lb)
+% for i = 1:length(x0)
+% %    print = ['lb ', , ', x ', x0(i), ', ub ', ub(i)];
+%    disp(i)
+%    disp(ub(i))
+%    disp(x0(i))
+%    disp(lb(i))
+%    disp('\n')
+% %    disp(x0(i))
+% end
 
 % [UPDATE] Run optimisation with SQP algorithm
-options = optimoptions('fmincon','Display','iter','Algorithm','sqp');
+% options = optimoptions('fmincon','Display','iter','Algorithm','sqp');
+
+options.Display = 'iter-detailed';
+options.Algorithm = 'sqp';
+options.DiffMaxChange = 0.01;
+options.DiffMinChange = 0.0001;
+options.TolCon = 1e-6;
+options.TolFun = 1e-6;
+optionsTolX = 1e-6;
+
 
 % Run optimisation
 
 % NOTE: RUN constants.m BEFORE RUNNING MAIN TO INITIALISE VARIABLES
 tic
 [x, fmin] = fmincon(@caller_fun, x0, [], [], [], [], lb, ub, @constraints, options);
-toc 
+toc
+
+% Denormalise final results
+x = x .* x0_init;
 
 % [UPDATE] Print results
 disp(x)

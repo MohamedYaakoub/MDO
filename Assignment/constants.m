@@ -29,7 +29,8 @@ data.stiff_eff_fac = 0.96;          % Stiffened panel efficiency factor [-] (top
 % Aircraft performance
 data.V_cr = 236.644;                        % Cruise speed (taken as long range) [m/s] (460 kt)
 data.V_mo = min(326.123, 0.86*295.070);     % Maximum operative speed (in this case Mach number is limiting) [m/s]
-data.M_cr = 236.644/295.070;                % Cruise Mach number [-]
+% data.M_cr = 236.644/295.070;                % Cruise Mach number [-]
+data.M_cr = 0.56;
 data.M_mo = 0.86;                           % Maximum operative Mach number [-]
 
 data.h_cr = 11887.2;         % Cruise height [m] (39000 ft)
