@@ -78,7 +78,7 @@ AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic
 AC.Aero.M     = data.M_mo;          % flight Mach number 
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
 % [CHECK IMPLEMENTATION OF n_max]
-AC.Aero.CL = data.n_max * 2 * W_TO_max / (data.density_cr * data.V_mo^2 * S);
+AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
 % Q3D solver

@@ -31,6 +31,7 @@ Al_r = des_vec(14:19);
 Au_t = des_vec(20:25);
 Al_t = des_vec(26:31);
 
+
 W_wing = des_vec(61);
 W_fuel = des_vec(62);
 
@@ -59,6 +60,7 @@ AC.Wing.inc  = data.i;
 AC.Wing.Airfoils   = [Au_r(1)  Au_r(2)  Au_r(3)  Au_r(4)  Au_r(5)  Au_r(6)  Al_r(1)  Al_r(2)  Al_r(3)  Al_r(4)  Al_r(5)  Al_r(6);
                       Au_t(1)  Au_t(2)  Au_t(3)  Au_t(4)  Au_t(5)  Au_t(6)  Al_t(1)  Al_t(2)  Al_t(3)  Al_t(4)  Al_t(5)  Al_t(6)];
                   
+% disp(AC.Wing.Airfoils)
 
 AC.Wing.eta = [0;1];  % Spanwise location of the airfoil sections
 
@@ -76,8 +78,13 @@ Re = data.density_cr * MAC_tot * data.V_cr / data.dyn_visc_cr;
 AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic chord)
 AC.Aero.M     = data.M_cr;                % flight Mach number 
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
-AC.Aero.CL = 2 * W_TO_max / (data.density_cr * data.V_cr^2 * S);
+
+% Design weight
+W_des = sqrt(W_TO_max * (W_TO_max - W_fuel));
+
+AC.Aero.CL = 2 * (W_des*9.80665) / (data.density_cr * data.V_cr^2 * S);
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
+
 
 % Q3D solver
 Res = Q3D_solver(AC);

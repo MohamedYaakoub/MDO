@@ -6,7 +6,7 @@ import wing_area.*
 import tank_volume.*
 
 [S, ~, ~] = wing_area(des_vec);
-% Calculate fuel tank volume
+% Calculate fuel tank volume (before denormalising vector)
 V_tank = tank_volume(des_vec); 
 
 global data;
@@ -44,11 +44,11 @@ WS = W_TO_max/S;
 c(2) = WS - data.WS_orig;
 
 % Print for debugging
-disp(data.Cl)
-disp(data.Cm)
-disp(data.LD_ratio)
-disp(data.W_wing)
-disp(data.W_fuel)
+% disp(data.Cl)
+% disp(data.Cm)
+% disp(data.LD_ratio)
+% disp(data.W_wing)
+% disp(data.W_fuel)
 
 % Equality constraints for copy variables
 ceq(1:14) = data.Cl - des_vec(32:45);

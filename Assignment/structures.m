@@ -158,6 +158,16 @@ chords = chord(positions, des_vec);         % Chord at each position
 L = chords.*Cl * q;
 M = chords.*Cm * MAC_tot * q;
 
+% disp('Loads')
+% disp('Lift')
+% disp(L)
+% disp('Chords')
+% disp(chords)
+% disp('Cl')
+% disp(Cl)
+% disp('q')
+% disp(q)
+% disp('End loads')
 
 % [Spanwise position, Lift, Pitching moment]
 lines = [positions; L; M]; 

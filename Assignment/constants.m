@@ -6,12 +6,13 @@ global data;
 % Outer wing geometry
 data.i = 4.15;        % Incidence angle [deg]
 data.dihedral = 6;    % Dihedral angle [deg]
-data.b1 = 8.13;       % Inner wing span (fus centreline to mid sec) [m]
+% data.b1 = 8.13;       % Inner wing span (fus centreline to mid sec) [m]
+data.b1 = 0.4 * 47.57/2; 
 data.sweep_TE_1 = 0;  % Trailing edge sweep of inboard section [deg]
 
 % Wing structure
 data.x_spar_f = 0.15;               % [PLACEHOLDER] x/c of the front spar
-data.x_spar_r = 0.75;               % [PLACEHOLDER] x/c of the rear spar
+data.x_spar_r = 0.60;               % [PLACEHOLDER] x/c of the rear spar
 data.min_b_tank = 0.;               % Fuel tank starts at 0% of the span (centreline)
 data.max_b_tank = 0.85;             % Maximum 85\% of the half span up to which the tank gets [-]
 data.rib_pitch = 0.5;               % Rib pitch [m]
@@ -23,7 +24,7 @@ data.density_al = 2800;             % Density of aliminium [kg/m^3]
 data.stiff_eff_fac = 0.96;          % Stiffened panel efficiency factor [-] (top hat)
 
 % Coordinates of wing sections (1 -> Root, 2 -> Mid, 3 -> Tip)
-[data.x1, data.y1, data.z1] = deal(0, 0, 0);         % [m]
+[data.x1, data.y1, data.z1] = deal(0, 0, 0);    % [m]
 [data.y2, data.z2] = deal(8.13, 8.13*tand(6));  % [m] 
 
 % Aircraft performance
@@ -50,4 +51,4 @@ data.eng_mass = 4470;           % Mass of one engine [kg]
 data.f_tank = 0.93;             % Tank volume factor [-]
 data.density_fuel = 0.81715e3;  % Fuel density [kg/m^3]
 % UPDATE
-data.C_AW = 100000;             % Aircraft less wing mass [kg]
+data.C_AW = 80000;             % Aircraft less wing mass [kg]

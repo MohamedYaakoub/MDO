@@ -10,19 +10,19 @@ global data;
 
 % ---------- Initial guess ----------
 
-% Airfoil coeffs [UPDATE FROM FITTING OF SCALED WHITCOMB]
-%  [UPDATE]
-Au_r = [0.2091    0.3558    0.2354    0.3916    0.1893    0.3279];
-Al_r = [-0.1338   -0.1965   -0.2418   -0.0522   -0.0749    0.1048];
-Au_t = [0.2091    0.3558    0.2354    0.3916    0.1893    0.3279];
-Al_t = [-0.1338   -0.1965   -0.2418   -0.0522   -0.0749    0.1048];
+% Airfoil coeffs - Root: whitcomb t/c 14 & Tip: whitcomb t/c 08
+Au_r = [0.2473    0.0841    0.2841    0.0935    0.2953    0.4031];
+Al_r = [-0.2385   -0.1729   -0.0498   -0.5047    0.0777    0.3444];
+Au_t = [0.1413    0.0482    0.1620    0.0539    0.1684    0.2305];
+Al_t = [-0.1363   -0.0989   -0.0282   -0.2887    0.0446    0.1967];
+
 
 % [Update] Cl and Cm distributions
 Cl = [0.5440    0.5630    0.5789    0.5930    0.6060    0.6180    0.6294    0.6403    0.6510    0.6614    0.6715    0.6808    0.6858    0.6623];
 Cm = [-0.1170   -0.1187   -0.1195   -0.1200   -0.1203   -0.1206   -0.1208   -0.1210   -0.1211   -0.1212   -0.1213   -0.1213   -0.1211   -0.1197];
 
 % Full vector
-x0_init = [8.57, 0.4, 0.4, 15, 14, 2, 1, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 1535157/3/9.80665, 50825.664/9.80665];
+x0_init = [8.57, 0.4, 0.4, 15, 14, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 20000, 50825.664];
 
 % Save initial design vector to denormalise it in the disciplines,
 % functions, etc.
@@ -90,11 +90,11 @@ lb = lb./abs(x0_init);
 options.Display = 'iter-detailed';
 options.Algorithm = 'sqp';
 options.DiffMaxChange = 0.01;
-options.DiffMinChange = 0.0001;
+options.DiffMinChange = 0.001;
 options.TolCon = 1e-6;
-options.TolFun = 1e-6;
-optionsTolX = 1e-6;
-
+options.TolFun = 1e-3;
+options.TolX = 1e-6;
+% options.UseParallel = true;
 
 % Run optimisation
 
