@@ -13,6 +13,8 @@ import objective.*
 
 global data;
 
+disp('Iteration')
+
 % Calculate disciplines
 [Cl, Cm] = loads(des_vec);
 W_wing = structures(des_vec);
@@ -29,6 +31,32 @@ data.W_wing = W_wing;
 data.LD_ratio = LD_ratio;
 data.W_fuel = W_fuel;
 
-disp('iteration')
+% ---------------------------------------------------
+% ------------------ Progress file ------------------
+% --------------------------------------------------- 
+init = fopen('optim_progress.dat','w');
+
+% Line 1 [MTOW, ZFW]
+line = Cl;
+format_line = 'Cl: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n';
+fprintf(init, format_line, line);
+
+line = Cm;
+format_line = 'Cm: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n';
+fprintf(init, format_line, line);
+
+line = W_wing;
+format_line = 'W_wing: %f \n';
+fprintf(init, format_line, line);
+
+line = LD_ratio;
+format_line = 'LD_ratio: %f \n';
+fprintf(init, format_line, line);
+
+line = W_fuel;
+format_line = 'W_fuel %f \n';
+fprintf(init, format_line, line);
+
+fclose(init);
 
 end

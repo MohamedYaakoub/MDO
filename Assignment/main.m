@@ -22,7 +22,9 @@ Cl = [0.5440    0.5630    0.5789    0.5930    0.6060    0.6180    0.6294    0.64
 Cm = [-0.1170   -0.1187   -0.1195   -0.1200   -0.1203   -0.1206   -0.1208   -0.1210   -0.1211   -0.1212   -0.1213   -0.1213   -0.1211   -0.1197];
 
 % Full vector
-x0_init = [8.57, 0.4, 0.4, 15, 14, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 20000, 50825.664];
+x0_init = [8.57, 0.207, 0.207, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 20000, 44559];
+
+% Design payload: 24795 kg
 
 % Save initial design vector to denormalise it in the disciplines,
 % functions, etc.
@@ -107,6 +109,6 @@ toc
 x = x .* x0_init;
 
 % [UPDATE] Print results
-disp(x)
+disp(x .* data.x0)
 
 disp(fmin)

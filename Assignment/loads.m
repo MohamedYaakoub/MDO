@@ -81,6 +81,8 @@ AC.Aero.M     = data.M_mo;          % flight Mach number
 AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
+disp(AC.Aero.CL)
+
 % Q3D solver
 Res = Q3D_solver(AC);
 

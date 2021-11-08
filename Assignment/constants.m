@@ -51,4 +51,4 @@ data.eng_mass = 4470;           % Mass of one engine [kg]
 data.f_tank = 0.93;             % Tank volume factor [-]
 data.density_fuel = 0.81715e3;  % Fuel density [kg/m^3]
 % UPDATE
-data.C_AW = 80000;             % Aircraft less wing mass [kg]
+data.C_AW = 80000;              % Aircraft less wing mass [kg]
