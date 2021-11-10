@@ -16,6 +16,9 @@ W_fuel = des_vec(62);
 
 W_TO_max = data.C_AW + W_wing + W_fuel;
 
+% Normalise
+W_TO_max = W_TO_max / data.MTOM_ref;
+
 end
 
 

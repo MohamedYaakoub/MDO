@@ -47,7 +47,7 @@ y3 = data.b1 + b2;
 z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 
 %               x       y       z     chord(m)     twist angle (deg) 
-AC.Wing.Geom = [0       0       0      C_r             0;      % Root
+AC.Wing.Geom = [0       0       0      C_r             data.i;      % Root
                 x2+0.0813  data.y2 data.z2    C_mid       twist_mid;  % Mid
                 x3      y3      z3     C_tip       twist_tip]; % Tip
 
@@ -70,18 +70,19 @@ AC.Aero.MaxIterIndex = 150;    % Maximum number of Iteration for the
                                 
                                 
 % [UPDATE] Flight Condition
-AC.Aero.V     = data.V_mo;          % flight speed (m/s)
+AC.Aero.V     = data.V_mo * sqrt(data.n_max);          % flight speed (m/s)
 AC.Aero.rho   = data.density_cr;    % air density  (kg/m3)
 AC.Aero.alt   = data.h_cr;          % flight altitude (m)
 Re = data.density_cr * MAC_tot * data.V_mo / data.dyn_visc_cr;
 AC.Aero.Re    = Re;                 % reynolds number (based on mean aerodynamic chord)
 AC.Aero.M     = data.M_mo;          % flight Mach number 
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
-% [CHECK IMPLEMENTATION OF n_max]
-AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
-% AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
-disp(AC.Aero.CL)
+% [CHECK IMPLEMENTATION OF n_max]
+% AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
+AC.Aero.CL = 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
+
+% AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
 % Q3D solver
 Res = Q3D_solver(AC);
@@ -89,5 +90,23 @@ Res = Q3D_solver(AC);
 % For loads, we want Cl and Cm distributions
 Cl = Res.Wing.cl';
 Cm = Res.Wing.cm_c4';
+Ccl = Res.Wing.ccl';
+Ccm = Res.Wing.cm_c4' .* Res.Wing.chord';
+
+positions = linspace(0, 1, length(Cl)) * (data.b1 + b2);
+chords = chord(positions, des_vec);
+
+% fprintf('Loads input CL %f \n', AC.Aero.CL)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Cl)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Ccl)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Cl .* chords)
+% 
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', positions)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', chords)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Res.Wing.chord')
+% fprintf('%f %f %f \n', C_r, C_tip, data.b1 + b2)
+
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Cm)
+% fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Ccm)
 
 end

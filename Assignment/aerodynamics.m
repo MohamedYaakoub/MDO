@@ -90,10 +90,10 @@ AC.Aero.CL = 2 * (W_des*9.80665) / (data.density_cr * data.V_cr^2 * S);
 Res = Q3D_solver(AC);
 
 % Print for debugging
-disp(Res.CLwing)
-disp(Res.CDwing)
+% fprintf('Aero CL %f \n', Res.CLwing)
+% fprintf('Aero CD %f \n', Res.CDwing)
 
 % For Aerodynamics, we want L/D ratio as an output [UPDATE CD A-W]
-LD_ratio = Res.CLwing/(Res.CDwing + 0.002);
+LD_ratio = Res.CLwing/(Res.CDwing + data.CD_AW);
 
 end

@@ -30,8 +30,8 @@ W_fuel = des_vec(62);
 V_fuel = W_fuel/data.density_fuel;
 
 
-% Constraint
-c(1) = V_fuel - V_tank * data.f_tank;
+% Constraint (normalised)
+c(1) = V_fuel/data.V_f_ref - V_tank * data.f_tank / data.V_f_ref ;
 
 % ---------- Constraint 2: Wing loading ---------
 
@@ -40,8 +40,9 @@ c(1) = V_fuel - V_tank * data.f_tank;
 W_TO_max = data.C_AW + W_wing + W_fuel;
 % Then calculate loading and compare to original one
 WS = W_TO_max/S;
+
 % Constraint
-c(2) = WS - data.WS_orig;
+c(2) = WS / data.WS_orig - 1;
 
 % Print for debugging
 % disp(data.Cl)
@@ -50,11 +51,13 @@ c(2) = WS - data.WS_orig;
 % disp(data.W_wing)
 % disp(data.W_fuel)
 
-% Equality constraints for copy variables
-ceq(1:14) = data.Cl - des_vec(32:45);
-ceq(15:28) = data.Cm - des_vec(46:59);
-ceq(3) = data.LD_ratio - des_vec(60);
-ceq(4) = data.W_wing - des_vec(61);
-ceq(5) = data.W_fuel - des_vec(62);
+% Equality constraints for copy variables (normalised)
+ceq(1:14) = data.Cl / des_vec(32:45) - ones(size(data.Cl));
+ceq(15:28) = data.Cm / des_vec(46:59) - ones(size(data.Cm));
+ceq(3) = data.LD_ratio / des_vec(60) - 1;
+ceq(4) = data.W_wing / des_vec(61) - 1;
+ceq(5) = data.W_fuel / des_vec(62) - 1;
+
+
 
 end

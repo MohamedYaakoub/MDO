@@ -1,6 +1,8 @@
 % Main file to run optimisation
 import caller_fun.*
 import constraints.*
+import outfun.*
+import plot_results.*
 
 global data;
 
@@ -18,11 +20,11 @@ Al_t = [-0.1363   -0.0989   -0.0282   -0.2887    0.0446    0.1967];
 
 
 % [Update] Cl and Cm distributions
-Cl = [0.5440    0.5630    0.5789    0.5930    0.6060    0.6180    0.6294    0.6403    0.6510    0.6614    0.6715    0.6808    0.6858    0.6623];
-Cm = [-0.1170   -0.1187   -0.1195   -0.1200   -0.1203   -0.1206   -0.1208   -0.1210   -0.1211   -0.1212   -0.1213   -0.1213   -0.1211   -0.1197];
+Cl = [0.742300 0.800000 0.854800 0.906000 0.953200 0.932700 0.907000 0.884600 0.859500 0.829200 0.790700 0.740000 0.668800 0.548300];
+Cm = [-0.337500 -0.345700 -0.348800 -0.345900 -0.334500 -0.273000 -0.241600 -0.227500 -0.218500 -0.210300 -0.201300 -0.190400 -0.176300 -0.153700];
 
 % Full vector
-x0_init = [8.57, 0.207, 0.207, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 20000, 44559];
+x0_init = [8.57, 0.4, 0.4, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 9213.02, 44559];
 
 % Design payload: 24795 kg
 
@@ -89,14 +91,16 @@ lb = lb./abs(x0_init);
 % [UPDATE] Run optimisation with SQP algorithm
 % options = optimoptions('fmincon','Display','iter','Algorithm','sqp');
 
+options = optimoptions(@fmincon);
 options.Display = 'iter-detailed';
 options.Algorithm = 'sqp';
 options.DiffMaxChange = 0.01;
-options.DiffMinChange = 0.001;
-options.TolCon = 1e-6;
+options.DiffMinChange = 0.0001;
+options.TolCon = 1e-3;
 options.TolFun = 1e-3;
-options.TolX = 1e-6;
+options.TolX = 1e-3;
 % options.UseParallel = true;
+options.OutputFcn = @outfun;
 
 % Run optimisation
 
@@ -109,6 +113,11 @@ toc
 x = x .* x0_init;
 
 % [UPDATE] Print results
-disp(x .* data.x0)
+fprintf('%f %f %f %f %f %f %f %f %f %f \n', x)
 
-disp(fmin)
+fprintf('MTOM %f \n', fmin * data.MTOM_ref)
+
+% Plot results
+
+plot_results(x);
+

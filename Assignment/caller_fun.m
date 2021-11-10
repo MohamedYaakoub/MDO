@@ -13,7 +13,7 @@ import objective.*
 
 global data;
 
-disp('Iteration')
+% disp('Iteration')
 
 % Calculate disciplines
 [Cl, Cm] = loads(des_vec);
@@ -56,6 +56,11 @@ fprintf(init, format_line, line);
 line = W_fuel;
 format_line = 'W_fuel %f \n';
 fprintf(init, format_line, line);
+
+line = W_TO_max;
+format_line = 'W_TO_max %f \n';
+fprintf(init, format_line, line);
+
 
 fclose(init);
 

@@ -3,12 +3,16 @@
 
 global data;
 
+% Reference data for normalisation of constraints/objective function
+data.MTOM_ref = 156489;             % Reference (starting) MTOM [kg]
+data.V_f_ref = 54.53;               % Reference fuel volume [m^3]
+
 % Outer wing geometry
-data.i = 4.15;        % Incidence angle [deg]
-data.dihedral = 6;    % Dihedral angle [deg]
-% data.b1 = 8.13;       % Inner wing span (fus centreline to mid sec) [m]
+data.i = 4.15;                      % Incidence angle [deg]
+data.dihedral = 6;                  % Dihedral angle [deg]
+% data.b1 = 8.13;                   % Inner wing span (fus centreline to mid sec) [m]
 data.b1 = 0.4 * 47.57/2; 
-data.sweep_TE_1 = 0;  % Trailing edge sweep of inboard section [deg]
+data.sweep_TE_1 = 0;                % Trailing edge sweep of inboard section [deg]
 
 % Wing structure
 data.x_spar_f = 0.15;               % [PLACEHOLDER] x/c of the front spar
@@ -30,25 +34,26 @@ data.stiff_eff_fac = 0.96;          % Stiffened panel efficiency factor [-] (top
 % Aircraft performance
 data.V_cr = 236.644;                        % Cruise speed (taken as long range) [m/s] (460 kt)
 data.V_mo = min(326.123, 0.86*295.070);     % Maximum operative speed (in this case Mach number is limiting) [m/s]
-% data.M_cr = 236.644/295.070;                % Cruise Mach number [-]
+% data.M_cr = 236.644/295.070;              % Cruise Mach number [-]
 data.M_cr = 0.56;
 data.M_mo = 0.86;                           % Maximum operative Mach number [-]
 
-data.h_cr = 11887.2;         % Cruise height [m] (39000 ft)
-data.range = 7445040;        % Design range [m] (4020 nm) (check max payload)
-data.WS_orig = 552.38;       % Original max wing loading [kg/m^2]
-data.C_T = 1.8639e-4;        % Specific fuel consumption [N/Ns]             
+data.h_cr = 11887.2;               % Cruise height [m] (39000 ft)
+data.range = 7445040;              % Design range [m] (4020 nm) (check max payload)
+data.WS_orig = 552.38;             % Original max wing loading [kg/m^2]
+data.C_T = 1.8639e-4;              % Specific fuel consumption [N/Ns]             
 
 % Air at cruise height
-data.density_cr = 0.316406;         % Air density at cruise height [kg/m^3]
-data.dyn_visc_cr = 0.0000143226;    % Air dynamic viscosity at cruise height [Pa*s]
+data.density_cr = 0.316406;        % Air density at cruise height [kg/m^3]
+data.dyn_visc_cr = 0.0000143226;   % Air dynamic viscosity at cruise height [Pa*s]
 
 % Other
-data.n_eng_wing = 1;            % Number of engines per wing [-]
-data.eng_pos = 0.3263;          % Spanwise position of engine [-]
+data.n_eng_wing = 1;               % Number of engines per wing [-]
+data.eng_pos = 0.3263;             % Spanwise position of engine [-]
 
-data.eng_mass = 4470;           % Mass of one engine [kg]
-data.f_tank = 0.93;             % Tank volume factor [-]
-data.density_fuel = 0.81715e3;  % Fuel density [kg/m^3]
+data.eng_mass = 4470;              % Mass of one engine [kg]
+data.f_tank = 0.93;                % Tank volume factor [-]
+data.density_fuel = 0.81715e3;     % Fuel density [kg/m^3]
 % UPDATE
-data.C_AW = 80000;              % Aircraft less wing mass [kg]
+data.C_AW = 102716.98;             % Aircraft less wing mass [kg]
+data.CD_AW = 0.02696275;           % Drag contribution of the aircraft less wing [-]

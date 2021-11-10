@@ -83,7 +83,7 @@ format_line = '%f %f %f %f %f %f \n';
 fprintf(init, format_line, line);
 
 % Line 7 Mid: [chord, x, y, z, x/c front spar, x/c rear spar]
-line = [C_mid, x2, data.y2, data.z2, data.x_spar_f, data.x_spar_r];
+line = [C_mid, x2 + 0.0813, data.y2, data.z2, data.x_spar_f, data.x_spar_r];
 format_line = '%f %f %f %f %f %f \n';
 fprintf(init, format_line, line);
 
@@ -151,12 +151,14 @@ positions = linspace(0, 1, length(Cl));
 
 q = 0.5 * data.density_cr * data.V_cr^2;    % Dynamic pressure
 
-chords = chord(positions, des_vec);         % Chord at each position
-
+% chords = chord(positions, des_vec);         % Chord at each position
+chords = chord(positions * (data.b1 + b2), des_vec);
 
 % Arrays with dimensional lift and moment
 L = chords.*Cl * q;
 M = chords.*Cm * MAC_tot * q;
+% L = Ccl * q;
+% M = Ccm * MAC_tot * q;
 
 % disp('Loads')
 % disp('Lift')
