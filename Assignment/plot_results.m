@@ -95,6 +95,9 @@ Al_r_orig = des_vec2(14:19);
 Au_t_orig = des_vec2(20:25);
 Al_t_orig = des_vec2(26:31);
 
+Cl = des_vec(32:45);
+Cm = des_vec(46:59);
+
 W_wing = des_vec2(61);
 W_fuel = des_vec2(62);
 
@@ -197,6 +200,24 @@ plot(Xtl_t(:,1), Xtl_t(:,2),'r');    % Lower surface
 hold off
 
 % Plot isometric view
+
+% Plot loads
+positions = linspace(0, 1, length(Cl));
+chords = chord(positions * (data.b1 + b2), des_vec);
+
+% Coefficients times chord
+Ccl = chords.*Cl;
+Ccm = chords.*Cm;
+
+figure
+% plot(positions, Ccl);
+% hold on
+% plot(positions, Ccm);
+% hold on
+plot(positions, Cl, 'k');
+hold on
+plot(positions, Cm, 'r');
+hold off
 
 
 end

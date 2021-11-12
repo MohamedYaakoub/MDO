@@ -33,6 +33,9 @@ V_fuel = W_fuel/data.density_fuel;
 % Constraint (normalised)
 c(1) = V_fuel/data.V_f_ref - V_tank * data.f_tank / data.V_f_ref ;
 
+fprintf('V_fuel %f V_tank*f_tank %f \n', V_fuel, V_tank * data.f_tank)
+
+
 % ---------- Constraint 2: Wing loading ---------
 
 % Calculate first wing area and W_TO,max
@@ -43,6 +46,8 @@ WS = W_TO_max/S;
 
 % Constraint
 c(2) = WS / data.WS_orig - 1;
+
+fprintf('WS %f WS_orig %f \n', WS, data.WS_orig)
 
 % Print for debugging
 % disp(data.Cl)

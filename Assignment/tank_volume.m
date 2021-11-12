@@ -83,6 +83,7 @@ for i = 1:length(y_l_vec(:, 1)) * 0.85
 volume_airfoil(i) = sum(volume_rect) * (b_1 + b_2) / length(x_u_vec(:,1));
 end
 
-V_tank = sum(volume_airfoil);
+% Multiply by 2 to account for both sides of the wing
+V_tank = 2*sum(volume_airfoil);
 
 end

@@ -16,7 +16,7 @@ data.sweep_TE_1 = 0;                % Trailing edge sweep of inboard section [de
 
 % Wing structure
 data.x_spar_f = 0.15;               % [PLACEHOLDER] x/c of the front spar
-data.x_spar_r = 0.60;               % [PLACEHOLDER] x/c of the rear spar
+data.x_spar_r = 0.70;               % [PLACEHOLDER] x/c of the rear spar
 data.min_b_tank = 0.;               % Fuel tank starts at 0% of the span (centreline)
 data.max_b_tank = 0.85;             % Maximum 85\% of the half span up to which the tank gets [-]
 data.rib_pitch = 0.5;               % Rib pitch [m]
@@ -56,4 +56,4 @@ data.f_tank = 0.93;                % Tank volume factor [-]
 data.density_fuel = 0.81715e3;     % Fuel density [kg/m^3]
 % UPDATE
 data.C_AW = 102716.98;             % Aircraft less wing mass [kg]
-data.CD_AW = 0.02696275;           % Drag contribution of the aircraft less wing [-]
+data.CD_AW = 0.022661125;          % Drag contribution of the aircraft less wing [-]
