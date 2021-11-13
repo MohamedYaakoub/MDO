@@ -40,8 +40,10 @@ data.M_mo = 0.86;                           % Maximum operative Mach number [-]
 
 data.h_cr = 11887.2;               % Cruise height [m] (39000 ft)
 data.range = 7445040;              % Design range [m] (4020 nm) (check max payload)
-data.WS_orig = 552.38;             % Original max wing loading [kg/m^2]
-data.C_T = 1.8639e-4;              % Specific fuel consumption [N/Ns]             
+% data.WS_orig = 552.38;             % Original max wing loading [kg/m^2]
+% data.WS_orig = 800.38;             % Original max wing loading [kg/m^2]
+% data.C_T = 1.8639e-4;              % Specific fuel consumption [N/Ns]             
+data.C_T = 1.400e-4;              % Specific fuel consumption [N/Ns]             
 
 % Air at cruise height
 data.density_cr = 0.316406;        % Air density at cruise height [kg/m^3]
@@ -54,6 +56,7 @@ data.eng_pos = 0.3263;             % Spanwise position of engine [-]
 data.eng_mass = 4470;              % Mass of one engine [kg]
 data.f_tank = 0.93;                % Tank volume factor [-]
 data.density_fuel = 0.81715e3;     % Fuel density [kg/m^3]
-% UPDATE
-data.C_AW = 102716.98;             % Aircraft less wing mass [kg]
-data.CD_AW = 0.022661125;          % Drag contribution of the aircraft less wing [-]
+
+% [UPDATE]
+data.C_AW = 87215.783514;          % Aircraft less wing mass [kg]
+data.CD_AW = 0.022644;             % Drag contribution of the aircraft less wing [-]

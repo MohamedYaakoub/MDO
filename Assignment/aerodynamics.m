@@ -5,6 +5,7 @@ function [LD_ratio] = aerodynamics(des_vec)
 global data;
 
 import MAC.*
+import wing_area.*
 
 [MAC_tot, ~, ~] = MAC(des_vec);
 [S, ~, ~] = wing_area(des_vec);
@@ -85,7 +86,6 @@ W_des = sqrt(W_TO_max * (W_TO_max - W_fuel));
 AC.Aero.CL = 2 * (W_des*9.80665) / (data.density_cr * data.V_cr^2 * S);
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
-
 % Q3D solver
 Res = Q3D_solver(AC);
 
@@ -93,7 +93,11 @@ Res = Q3D_solver(AC);
 % fprintf('Aero CL %f \n', Res.CLwing)
 % fprintf('Aero CD %f \n', Res.CDwing)
 
-% For Aerodynamics, we want L/D ratio as an output [UPDATE CD A-W]
+% For Aerodynamics, we want L/D ratio as an output
 LD_ratio = Res.CLwing/(Res.CDwing + data.CD_AW);
+
+% Initial point [ONLY USED TO MAKE FIRST DESIGN POINT CONSISTENT, COMMENT
+% OUT DURING ITERATION]
+% data.CD_AW = Res.CLwing/16 - Res.CDwing;
 
 end

@@ -33,7 +33,7 @@ V_fuel = W_fuel/data.density_fuel;
 % Constraint (normalised)
 c(1) = V_fuel/data.V_f_ref - V_tank * data.f_tank / data.V_f_ref ;
 
-fprintf('V_fuel %f V_tank*f_tank %f \n', V_fuel, V_tank * data.f_tank)
+% fprintf('V_fuel %f V_tank*f_tank %f \n', V_fuel, V_tank * data.f_tank)
 
 
 % ---------- Constraint 2: Wing loading ---------
@@ -47,7 +47,7 @@ WS = W_TO_max/S;
 % Constraint
 c(2) = WS / data.WS_orig - 1;
 
-fprintf('WS %f WS_orig %f \n', WS, data.WS_orig)
+% fprintf('WS %f WS_orig %f \n', WS, data.WS_orig)
 
 % Print for debugging
 % disp(data.Cl)
@@ -59,10 +59,45 @@ fprintf('WS %f WS_orig %f \n', WS, data.WS_orig)
 % Equality constraints for copy variables (normalised)
 ceq(1:14) = data.Cl / des_vec(32:45) - ones(size(data.Cl));
 ceq(15:28) = data.Cm / des_vec(46:59) - ones(size(data.Cm));
-ceq(3) = data.LD_ratio / des_vec(60) - 1;
-ceq(4) = data.W_wing / des_vec(61) - 1;
-ceq(5) = data.W_fuel / des_vec(62) - 1;
+ceq(29) = data.LD_ratio / des_vec(60) - 1;
+ceq(30) = data.W_wing / des_vec(61) - 1;
+ceq(31) = data.W_fuel / des_vec(62) - 1;
 
+% ---------------------------------------------------
+% ------------------ Progress file ------------------
+% --------------------------------------------------- 
+init = fopen('constraint_progress.dat','w');
+
+line = [V_tank * data.f_tank, V_fuel, c(1)];
+format_line = 'Usable tank volume: %f Fuel volume: %f Constraint: %f \n';
+fprintf(init, format_line, line);
+
+line = [WS, data.WS_orig, c(2)];
+format_line = 'WS: %f WS_orig: %f Constraint: %f \n';
+fprintf(init, format_line, line);
+
+line = ceq(1:14);
+format_line = 'Cl constraint: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n';
+fprintf(init, format_line, line);
+
+line = ceq(15:28);
+format_line = 'Cm constraint: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n';
+fprintf(init, format_line, line);
+
+line = ceq(29);
+format_line = 'LD_ratio constraint: %f \n';
+fprintf(init, format_line, line);
+
+line = ceq(30);
+format_line = 'W_wing constraint: %f \n';
+fprintf(init, format_line, line);
+
+line = ceq(31);
+format_line = 'W_fuel constraint: %f \n';
+fprintf(init, format_line, line);
+
+
+fclose(init);
 
 
 end

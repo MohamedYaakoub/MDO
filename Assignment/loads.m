@@ -70,7 +70,8 @@ AC.Aero.MaxIterIndex = 150;    % Maximum number of Iteration for the
                                 
                                 
 % [UPDATE] Flight Condition
-AC.Aero.V     = data.V_mo * sqrt(data.n_max);          % flight speed (m/s)
+% AC.Aero.V     = data.V_mo * sqrt(data.n_max);          % flight speed (m/s)
+AC.Aero.V     = data.V_mo;          % flight speed (m/s)
 AC.Aero.rho   = data.density_cr;    % air density  (kg/m3)
 AC.Aero.alt   = data.h_cr;          % flight altitude (m)
 Re = data.density_cr * MAC_tot * data.V_mo / data.dyn_visc_cr;
@@ -79,8 +80,8 @@ AC.Aero.M     = data.M_mo;          % flight Mach number
 % AC.Aero.CL    = 0.4;              % lift coefficient - comment this line to run the code for given alpha%
 
 % [CHECK IMPLEMENTATION OF n_max]
-% AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
-AC.Aero.CL = 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
+AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
+% AC.Aero.CL = 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^2 * S);
 
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 

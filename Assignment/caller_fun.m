@@ -36,7 +36,6 @@ data.W_fuel = W_fuel;
 % --------------------------------------------------- 
 init = fopen('optim_progress.dat','w');
 
-% Line 1 [MTOW, ZFW]
 line = Cl;
 format_line = 'Cl: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n';
 fprintf(init, format_line, line);

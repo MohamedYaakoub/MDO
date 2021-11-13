@@ -3,6 +3,7 @@ import caller_fun.*
 import constraints.*
 import outfun.*
 import plot_results.*
+import wing_area.*
 
 global data;
 
@@ -20,11 +21,11 @@ Al_t = [-0.1363   -0.0989   -0.0282   -0.2887    0.0446    0.1967];
 
 
 % [Update] Cl and Cm distributions
-Cl = [0.690900 0.719400 0.739100 0.747300 0.740300 0.710300 0.705700 0.700200 0.689900 0.672900 0.646800 0.607700 0.547500 0.443000];
-Cm = [-0.336300 -0.339500 -0.338300 -0.331700 -0.317900 -0.278400 -0.255300 -0.241000 -0.230700 -0.221600 -0.211800 -0.200200 -0.184900 -0.161000];
+Cl = [1.458000 1.550000 1.640400 1.725100 1.803200 1.823100 1.844200 1.868100 1.888100 1.901200 1.902500 1.881800 1.807200 1.541000];
+Cm = [-0.380600 -0.371700 -0.363200 -0.353700 -0.342900 -0.297600 -0.265800 -0.247300 -0.234900 -0.224400 -0.213000 -0.198300 -0.173600 -0.118700];
 
 % Full vector
-x0_init = [8.57, 0.455, 0.455, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 9213.02, 44559];
+x0_init = [8.57, 0.455, 0.455, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 24247.7, 45025.516486];
 
 % Design payload: 24795 kg
 
@@ -98,11 +99,16 @@ options.DiffMaxChange = 0.01;
 options.DiffMinChange = 0.0001;
 options.TolCon = 1e-3;
 options.TolFun = 1e-3;
-options.TolX = 1e-3;
+options.StepTolerance = 1e-6;
 % options.UseParallel = true;
 options.OutputFcn = @outfun;
 
 % Run optimisation
+
+% Save initial calculated WS (reference) to use in constraint
+[S, ~, ~] = wing_area(x0/x0);
+
+data.WS_orig = data.MTOM_ref/S;
 
 % NOTE: RUN constants.m BEFORE RUNNING MAIN TO INITIALISE VARIABLES
 tic
