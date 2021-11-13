@@ -8,7 +8,8 @@ data.MTOM_ref = 156489;             % Reference (starting) MTOM [kg]
 data.V_f_ref = 54.53;               % Reference fuel volume [m^3]
 
 % Outer wing geometry
-data.i = 4.15;                      % Incidence angle [deg]
+% data.i = 4.15;                      % Incidence angle [deg]
+data.i = 0;                      % Incidence angle [deg]
 data.dihedral = 6;                  % Dihedral angle [deg]
 % data.b1 = 8.13;                   % Inner wing span (fus centreline to mid sec) [m]
 data.b1 = 0.4 * 47.57/2; 

@@ -22,7 +22,9 @@ LD_ratio = aerodynamics(des_vec);
 W_fuel = performance(des_vec);
 
 % Objective function
-W_TO_max = objective(des_vec);
+% W_TO_max = objective(des_vec);
+W_TO_max = objective(W_wing, W_fuel);
+
 
 % Save disciplines as global variables
 data.Cl = Cl;

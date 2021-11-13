@@ -95,15 +95,15 @@ res_file = fopen('aerodynamics_inputs.dat','w');
 line = [AC.Aero.Re, W_des, AC.Aero.CL];
 fprintf(res_file, 'Re: %f W_des: %f Input CL: %f \n', line);
 
-% Airfoil coefficients
-line = [Au_r(1)  Au_r(2)  Au_r(3)  Au_r(4)  Au_r(5)  Au_r(6)];
-fprintf(res_file, 'Au_r: %f %f %f %f %f %f \n', line);
-line = [Al_r(1)  Al_r(2)  Al_r(3)  Al_r(4)  Al_r(5)  Al_r(6)];
-fprintf(res_file, 'Al_r: %f %f %f %f %f %f \n', line);
-line = [Au_t(1)  Au_t(2)  Au_t(3)  Au_t(4)  Au_t(5)  Au_t(6)];
-fprintf(res_file, 'Au_t: %f %f %f %f %f %f \n', line);
-line = [Al_t(1)  Al_t(2)  Al_t(3)  Al_t(4)  Al_t(5)  Al_t(6)];
-fprintf(res_file, 'Al_t: %f %f %f %f %f %f \n', line);
+% % Airfoil coefficients
+% line = [Au_r(1)  Au_r(2)  Au_r(3)  Au_r(4)  Au_r(5)  Au_r(6)];
+% fprintf(res_file, 'Au_r: %f %f %f %f %f %f \n', line);
+% line = [Al_r(1)  Al_r(2)  Al_r(3)  Al_r(4)  Al_r(5)  Al_r(6)];
+% fprintf(res_file, 'Al_r: %f %f %f %f %f %f \n', line);
+% line = [Au_t(1)  Au_t(2)  Au_t(3)  Au_t(4)  Au_t(5)  Au_t(6)];
+% fprintf(res_file, 'Au_t: %f %f %f %f %f %f \n', line);
+% line = [Al_t(1)  Al_t(2)  Al_t(3)  Al_t(4)  Al_t(5)  Al_t(6)];
+% fprintf(res_file, 'Al_t: %f %f %f %f %f %f \n', line);
 
 fclose(res_file);
 % -----------------------------------

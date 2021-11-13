@@ -198,6 +198,7 @@ y_l_root = Xtl(:,2);
 % Reverse airfoil (start from trailing edge)
 x_u_root = flip(x_u_root);
 y_u_root = flip(y_u_root);
+
 for point = 1:length(x_u_root)
 format_line = '%f %f \n';
 fprintf(airfoil_root, format_line, x_u_root(point), y_u_root(point));

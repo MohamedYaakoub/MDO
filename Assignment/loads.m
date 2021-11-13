@@ -47,10 +47,37 @@ y3 = data.b1 + b2;
 z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 
 %               x       y       z     chord(m)     twist angle (deg) 
-AC.Wing.Geom = [0       0       0      C_r             data.i;      % Root
+AC.Wing.Geom = [0       0       0      C_r             0;      % Root
                 x2+0.0813  data.y2 data.z2    C_mid       twist_mid;  % Mid
                 x3      y3      z3     C_tip       twist_tip]; % Tip
 
+% Print results on file for debugging-----------------------------
+
+res_file = fopen('loads_wing_geom_inputs.dat','w');
+
+% Inputs to Q3D
+line = [0, 0, 0, C_r, 0];
+fprintf(res_file, 'x: %f y: %f z: %f Chord(m): %f Twist: %f \n', line);
+
+line = [x2+0.0813, data.y2, data.z2, C_mid, twist_mid];
+fprintf(res_file, 'x: %f y: %f z: %f Chord(m): %f Twist: %f \n', line);
+
+line = [x3, y3, z3, C_tip, twist_tip];
+fprintf(res_file, 'x: %f y: %f z: %f Chord(m): %f Twist: %f \n', line);
+
+% Airfoil coefficients
+line = [Au_r(1)  Au_r(2)  Au_r(3)  Au_r(4)  Au_r(5)  Au_r(6)];
+fprintf(res_file, 'Au_r: %f %f %f %f %f %f \n', line);
+line = [Al_r(1)  Al_r(2)  Al_r(3)  Al_r(4)  Al_r(5)  Al_r(6)];
+fprintf(res_file, 'Al_r: %f %f %f %f %f %f \n', line);
+line = [Au_t(1)  Au_t(2)  Au_t(3)  Au_t(4)  Au_t(5)  Au_t(6)];
+fprintf(res_file, 'Au_t: %f %f %f %f %f %f \n', line);
+line = [Al_t(1)  Al_t(2)  Al_t(3)  Al_t(4)  Al_t(5)  Al_t(6)];
+fprintf(res_file, 'Al_t: %f %f %f %f %f %f \n', line);
+
+
+fclose(res_file);
+            
 % Wing incidence angle (degree)
 AC.Wing.inc  = data.i;   
             
@@ -94,8 +121,8 @@ Cm = Res.Wing.cm_c4';
 Ccl = Res.Wing.ccl';
 Ccm = Res.Wing.cm_c4' .* Res.Wing.chord';
 
-positions = linspace(0, 1, length(Cl)) * (data.b1 + b2);
-chords = chord(positions, des_vec);
+% positions = linspace(0, 1, length(Cl)) * (data.b1 + b2);
+% chords = chord(positions, des_vec);
 
 % fprintf('Loads input CL %f \n', AC.Aero.CL)
 % fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Cl)

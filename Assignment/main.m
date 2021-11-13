@@ -25,7 +25,7 @@ Cl = [1.458000 1.550000 1.640400 1.725100 1.803200 1.823100 1.844200 1.868100 1.
 Cm = [-0.380600 -0.371700 -0.363200 -0.353700 -0.342900 -0.297600 -0.265800 -0.247300 -0.234900 -0.224400 -0.213000 -0.198300 -0.173600 -0.118700];
 
 % Full vector
-x0_init = [8.57, 0.455, 0.455, 35, 14.16, 2.5, 0.5, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 24247.7, 45025.516486];
+x0_init = [8.57, 0.455, 0.455, 35, 14.16, 0.1, 0.1, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 24247.7, 45025.516486];
 
 % Design payload: 24795 kg
 
@@ -113,6 +113,7 @@ options.TolFun = 1e-3;
 options.StepTolerance = 1e-12;
 % options.UseParallel = true;
 options.OutputFcn = @outfun;
+% options.FinDiffType = 'central';
 
 % Run optimisation
 

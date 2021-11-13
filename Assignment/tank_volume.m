@@ -73,13 +73,14 @@ end
 for i = 1:length(y_l_vec(:, 1)) * 0.85
     for j = 1:length(y_l_vec(1,:)) - 1
         if (front_spar * chord_vec(i) < x_u_vec(i,j)) && (x_u_vec(i,j)< back_spar * chord_vec(i))
+            
 %       volume_rect(j) = (y_u_vec(i,j) - y_l_vec(i,j) ) * chord_vec(i)/length(x_u_vec(i,:));
         volume_rect(j) = (y_u_vec(i,j) - y_l_vec(i,j)) * (x_u_vec(i,j+1) - x_u_vec(i,j));
-
 
         end
     
     end
+    
 volume_airfoil(i) = sum(volume_rect) * (b_1 + b_2) / length(x_u_vec(:,1));
 end
 

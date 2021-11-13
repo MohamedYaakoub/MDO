@@ -63,6 +63,12 @@ ceq(29) = data.LD_ratio / des_vec(60) - 1;
 ceq(30) = data.W_wing / des_vec(61) - 1;
 ceq(31) = data.W_fuel / des_vec(62) - 1;
 
+% ceq(1:14) = des_vec(32:45) / data.Cl  - ones(size(data.Cl));
+% ceq(15:28) = des_vec(46:59) / data.Cm  - ones(size(data.Cm));
+% ceq(29) = des_vec(60) / data.LD_ratio - 1;
+% ceq(30) = des_vec(61) / data.W_wing  - 1;
+% ceq(31) = des_vec(62) / data.W_fuel - 1;
+
 % ---------------------------------------------------
 % ------------------ Progress file ------------------
 % --------------------------------------------------- 
