@@ -4,8 +4,19 @@ import constraints.*
 import outfun.*
 import plot_results.*
 import wing_area.*
+import constraint_plotter.*
 
 global data;
+
+% Reinitialise plotting arrays from constraints before running iteration
+data.c_fuel_plot = [];
+data.c_WS_plot = [];
+data.ceq_cl_plot = [];
+data.ceq_cm_plot = [];
+data.ceq_LD_plot = [];
+data.ceq_Ww_plot = [];
+data.ceq_Wf_plot = [];
+
 
 % ---------- Design vector format ----------
 % [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],
@@ -21,11 +32,11 @@ Al_t = [-0.1363   -0.0989   -0.0282   -0.2887    0.0446    0.1967];
 
 
 % [Update] Cl and Cm distributions
-Cl = [1.458000 1.550000 1.640400 1.725100 1.803200 1.823100 1.844200 1.868100 1.888100 1.901200 1.902500 1.881800 1.807200 1.541000];
-Cm = [-0.380600 -0.371700 -0.363200 -0.353700 -0.342900 -0.297600 -0.265800 -0.247300 -0.234900 -0.224400 -0.213000 -0.198300 -0.173600 -0.118700];
+Cl = [1.332800 1.431800 1.540000 1.654600 1.774700 1.835900 1.888400 1.938900 1.983600 2.020400 2.045600 2.048800 1.994900 1.7253];
+Cm = [-0.375100 -0.368400 -0.361300 -0.352600 -0.341700 -0.294400 -0.263100 -0.244900 -0.232700 -0.222300 -0.211000 -0.195900 -0.169700 -0.109];
 
 % Full vector
-x0_init = [8.57, 0.455, 0.455, 35, 14.16, 0.1, 0.1, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 24247.7, 45025.516486];
+x0_init = [8.57, 0.55, 0.37636363, 35, 14.16, 2, 1, Au_r, Al_r, Au_t, Al_t, Cl, Cm, 16, 25757.3, 45026.748368];
 
 % Design payload: 24795 kg
 
@@ -67,11 +78,16 @@ Al_t_lb(sign(Al_t) == -1) = Al_t_lb(sign(Al_t) == -1) * 1.2;
 % Airfoil coefficients
 Cl_ub = ones(size(Cl)) * 6;
 Cm_ub = ones(size(Cm)) * 6;
-ub = [26.5, 1, 1, 50, 17.87, 8.15, 8.15, Au_r_ub, Al_r_ub, Au_t_ub, Al_t_ub, Cl_ub, Cm_ub, 40, 156489, 156489];
+% ub = [26.5, 1, 1, 50, 17.87, 8.15, 8.15, Au_r_ub, Al_r_ub, Au_t_ub, Al_t_ub, Cl_ub, Cm_ub, 40, 156489, 156489];
+ub = [26.5, 1, 1, 50, 17.87, 4, 4, Au_r_ub, Al_r_ub, Au_t_ub, Al_t_ub, Cl_ub, Cm_ub, 40, 156489, 156489];
 
 Cl_lb = ones(size(Cl)) * -6;
 Cm_lb = ones(size(Cm)) * -6;
-lb = [2, 0.05, 0.05, 0, 0, -10, -10, Au_r_lb, Al_r_lb, Au_t_lb, Al_t_lb, Cl_lb, Cm_lb, 5, 4358, 1000];
+% lb = [2, 0.05, 0.05, 0.5, 1, -10, -10, Au_r_lb, Al_r_lb, Au_t_lb, Al_t_lb, Cl_lb, Cm_lb, 5, 4358, 1000];
+lb = [3, 0.1, 0.1, 1, 1, -5, -5, Au_r_lb, Al_r_lb, Au_t_lb, Al_t_lb, Cl_lb, Cm_lb, 5, 4358, 1000];
+
+% [Cr, taper1, taper2, sweep_LE_2, b2, twist_mid, twist_tip, [Au_r], [Al_r],[Au_t], [Al_t], [Cl], [Cm], LD_Ratio, W_wing, W_fuel]
+
 
 % Normalise bounds
 ub = ub./abs(x0_init);
@@ -106,19 +122,20 @@ lb = lb./abs(x0_init);
 options = optimoptions(@fmincon);
 options.Display = 'iter-detailed';
 options.Algorithm = 'sqp';
-options.DiffMaxChange = 0.1;
+options.DiffMaxChange = 1;
 options.DiffMinChange = 0.05;
 options.TolCon = 1e-3;
 options.TolFun = 1e-3;
 options.StepTolerance = 1e-12;
 % options.UseParallel = true;
-options.OutputFcn = @outfun;
-% options.FinDiffType = 'central';
+% options.OutputFcn = @outfun;
+options.FinDiffType = 'central';
+options.PlotFcns = {@optimplotfval, @optimplotx, @optimplotfirstorderopt, @optimplotconstrviolation, @optimplotfunccount, @optimplotstepsize};
 
 % Run optimisation
 
 % Save initial calculated WS (reference) to use in constraint
-[S, ~, ~] = wing_area(x0/x0);
+[S, ~, ~] = wing_area(x0);
 
 data.WS_orig = data.MTOM_ref/S;
 
@@ -128,7 +145,7 @@ tic
 toc
 
 % Denormalise final results
-x = x .* x0_init;
+x = x .* abs(x0_init);
 
 % [UPDATE] Print results on screen ------------------------------------
 
@@ -186,11 +203,14 @@ fprintf(res_file, 'LD_ratio: %f W_wing_hat: %f W_fuel_hat: %f \n', line);
 
 
 % Objective function
-fprintf(res_file, 'MTOM: %f Normalised objective function: \n', [fmin * data.MTOM_ref, fmin]);
+fprintf(res_file, 'MTOM: %f Normalised objective function: %f \n', [fmin * data.MTOM_ref, fmin]);
 
 fclose(res_file);
 
 % Plot results -------------------------------------
-
 plot_results(x);
+
+
+% Plot constraints -------------------------------------
+constraint_plotter();
 

@@ -10,6 +10,7 @@ import structures.*
 import aerodynamics.*
 import performance.*
 import objective.*
+% import constraint_plotter.*
 
 global data;
 
@@ -62,7 +63,9 @@ line = W_TO_max;
 format_line = 'W_TO_max %f \n';
 fprintf(init, format_line, line);
 
-
 fclose(init);
+
+% % Plot 
+% constraint_plotter()
 
 end

@@ -108,15 +108,25 @@ fprintf(res_file, 'Re: %f W_des: %f Input CL: %f \n', line);
 fclose(res_file);
 % -----------------------------------
 
-% Q3D solver
-Res = Q3D_solver(AC);
+try
+    % Q3D solver
+    Res = Q3D_solver(AC);
 
-% Print for debugging
-% fprintf('Aero CL %f \n', Res.CLwing)
-% fprintf('Aero CD %f \n', Res.CDwing)
+    % Print for debugging
+    % fprintf('Aero CL %f \n', Res.CLwing)
+    % fprintf('Aero CD %f \n', Res.CDwing)
 
-% For Aerodynamics, we want L/D ratio as an output
-LD_ratio = Res.CLwing/(Res.CDwing + data.CD_AW);
+    % For Aerodynamics, we want L/D ratio as an output
+    LD_ratio = Res.CLwing/(Res.CDwing + data.CD_AW);
+
+catch
+    % Return arbitrarily bad results
+    LD_ratio = 8;
+    
+    % Return to original directory (if file gives error inside storage
+    % folder, code won't run)
+    cd 'C:\Users\Javier Alba Maestre\Desktop\Year 1\MDO for Aerospace Applications\Assignment\Code\Assignment'
+end
 
 % Initial point [ONLY USED TO MAKE FIRST DESIGN POINT CONSISTENT, COMMENT
 % OUT DURING ITERATION]

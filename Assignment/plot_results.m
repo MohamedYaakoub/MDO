@@ -53,6 +53,7 @@ z3 = (data.b1 + b2)*tand(data.dihedral); % REVISE
 % Plotting
 
 % LE
+figure
 plot([xr_le, xm_le], [yr_le, ym_le], 'k')
 hold on
 plot([xm_le, xt_le], [ym_le, yt_le], 'k')
@@ -145,6 +146,12 @@ hold on
 plot([xr_te, xm_te], [yr_te, ym_te], 'r')
 hold on
 plot([xm_te, xt_te], [ym_te, yt_te], 'r')
+
+legend('', '', '', '', '', 'Optimised', '', '', '', '', '', 'Original' )
+title('Wing planform')
+xlabel('y') 
+ylabel('x') 
+
 view([90 90])
 hold off
 
@@ -162,6 +169,7 @@ X_plot = linspace(0, 1, 100)';
 
 % Root airfoil
 figure
+
 subplot(1, 2, 1);
 plot(Xtu_r(:,1), Xtu_r(:,2),'k');    % Upper surface
 hold on
@@ -169,6 +177,9 @@ plot(Xtl_r(:,1), Xtl_r(:,2),'k');    % Lower surface
 hold on
 axis([0,1,-0.5,0.5]);
 
+
+title('Root airfoil')
+ 
 % Tip airfoil
 subplot(1, 2, 2);
 plot(Xtu_t(:,1), Xtu_t(:,2),'k');    % Upper surface
@@ -178,6 +189,9 @@ hold on
 
 axis([0,1,-0.5,0.5]);
 
+
+title('Tip airfoil')
+ 
 % ----------------------------------------
 % --------------- Original ---------------
 % ----------------------------------------
@@ -190,12 +204,14 @@ plot(Xtu_r(:,1), Xtu_r(:,2),'r');    % Upper surface
 hold on
 plot(Xtl_r(:,1), Xtl_r(:,2),'r');    % Lower surface
 hold on
+legend('Optimised', '', 'Original')
 
 % Tip airfoil
 subplot(1, 2, 2);
 plot(Xtu_t(:,1), Xtu_t(:,2),'r');    % Upper surface
 hold on
 plot(Xtl_t(:,1), Xtl_t(:,2),'r');    % Lower surface
+legend('Optimised', '', 'Original')
 
 hold off
 
@@ -214,9 +230,16 @@ figure
 % hold on
 % plot(positions, Ccm);
 % hold on
-plot(positions, Cl, 'k');
+plot(positions, Cl, 'k', 'DisplayName', 'C_l');
 hold on
-plot(positions, Cm, 'r');
+plot(positions, Cm, 'r', 'DisplayName', 'C_m');
+
+legend
+title('Sizing load coefficients')
+xlabel('y') 
+ylabel('Coefficient') 
+
+
 hold off
 
 

@@ -75,6 +75,8 @@ fprintf(res_file, 'Au_t: %f %f %f %f %f %f \n', line);
 line = [Al_t(1)  Al_t(2)  Al_t(3)  Al_t(4)  Al_t(5)  Al_t(6)];
 fprintf(res_file, 'Al_t: %f %f %f %f %f %f \n', line);
 
+fprintf(res_file, 'Cl_hat: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', des_vec(32:45));
+fprintf(res_file, 'Cm_hat: %f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', des_vec(46:59));
 
 fclose(res_file);
             
@@ -112,14 +114,15 @@ AC.Aero.CL = data.n_max * 2 * (W_TO_max*9.80665) / (data.density_cr * data.V_mo^
 
 % AC.Aero.Alpha = 2;                  % angle of attack -  comment this line to run the code for given cl 
 
+try
 % Q3D solver
 Res = Q3D_solver(AC);
 
 % For loads, we want Cl and Cm distributions
 Cl = Res.Wing.cl';
 Cm = Res.Wing.cm_c4';
-Ccl = Res.Wing.ccl';
-Ccm = Res.Wing.cm_c4' .* Res.Wing.chord';
+% Ccl = Res.Wing.ccl';
+% Ccm = Res.Wing.cm_c4' .* Res.Wing.chord';
 
 % positions = linspace(0, 1, length(Cl)) * (data.b1 + b2);
 % chords = chord(positions, des_vec);
@@ -136,5 +139,16 @@ Ccm = Res.Wing.cm_c4' .* Res.Wing.chord';
 
 % fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Cm)
 % fprintf('%f %f %f %f %f %f %f %f %f %f %f %f %f %f \n', Ccm)
+
+catch
+    % Return arbitrarily bad results
+    Cl = des_vec(32:45) * 2;
+    Cm = des_vec(46:59) * 2;
+    
+    % Return to original directory (if file gives error inside storage
+    % folder, code won't run)
+    cd 'C:\Users\Javier Alba Maestre\Desktop\Year 1\MDO for Aerospace Applications\Assignment\Code\Assignment'
+    
+end
 
 end

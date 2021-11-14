@@ -57,11 +57,26 @@ c(2) = WS / data.WS_orig - 1;
 % disp(data.W_fuel)
 
 % Equality constraints for copy variables (normalised)
-ceq(1:14) = data.Cl / des_vec(32:45) - ones(size(data.Cl));
-ceq(15:28) = data.Cm / des_vec(46:59) - ones(size(data.Cm));
+ceq(1:14) = data.Cl ./ des_vec(32:45) - ones(size(data.Cl));
+ceq(15:28) = data.Cm ./ des_vec(46:59) - ones(size(data.Cm));
 ceq(29) = data.LD_ratio / des_vec(60) - 1;
 ceq(30) = data.W_wing / des_vec(61) - 1;
 ceq(31) = data.W_fuel / des_vec(62) - 1;
+
+% Save constrains to globals to plot: append new value
+data.c_fuel_plot(end+1) = c(1);
+data.c_WS_plot(end+1) = c(2);
+
+% Append entire Cl and CM arrays to same matrix
+data.ceq_cl_plot = [data.ceq_cl_plot; ceq(1:14)];
+data.ceq_cm_plot = [data.ceq_cm_plot; ceq(15:28)];
+
+% Append value at the end
+data.ceq_LD_plot(end+1) = ceq(29);
+data.ceq_Ww_plot(end+1) = ceq(30);
+data.ceq_Wf_plot(end+1) = ceq(31);
+
+data.ceq_plot = ceq;
 
 % ceq(1:14) = des_vec(32:45) / data.Cl  - ones(size(data.Cl));
 % ceq(15:28) = des_vec(46:59) / data.Cm  - ones(size(data.Cm));
@@ -104,6 +119,5 @@ fprintf(init, format_line, line);
 
 
 fclose(init);
-
 
 end

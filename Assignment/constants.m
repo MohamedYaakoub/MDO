@@ -8,8 +8,8 @@ data.MTOM_ref = 156489;             % Reference (starting) MTOM [kg]
 data.V_f_ref = 54.53;               % Reference fuel volume [m^3]
 
 % Outer wing geometry
-% data.i = 4.15;                      % Incidence angle [deg]
-data.i = 0;                      % Incidence angle [deg]
+data.i = 4.15;                      % Incidence angle [deg]
+% data.i = 0;                      % Incidence angle [deg]
 data.dihedral = 6;                  % Dihedral angle [deg]
 % data.b1 = 8.13;                   % Inner wing span (fus centreline to mid sec) [m]
 data.b1 = 0.4 * 47.57/2; 
@@ -59,5 +59,5 @@ data.f_tank = 0.93;                % Tank volume factor [-]
 data.density_fuel = 0.81715e3;     % Fuel density [kg/m^3]
 
 % [UPDATE]
-data.C_AW = 87215.783514;          % Aircraft less wing mass [kg]
-data.CD_AW = 0.022644;             % Drag contribution of the aircraft less wing [-]
+data.C_AW = 85704.951632;          % Aircraft less wing mass [kg]
+data.CD_AW = 0.022587;             % Drag contribution of the aircraft less wing [-]
