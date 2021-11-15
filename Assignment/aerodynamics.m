@@ -116,8 +116,11 @@ try
     % fprintf('Aero CL %f \n', Res.CLwing)
     % fprintf('Aero CD %f \n', Res.CDwing)
 
+    % D_AW stays constant, CD_AW does not
+    CD_AW = 2 * data.D_AW / (data.density_cr * data.V_cr^2 * S);
+    
     % For Aerodynamics, we want L/D ratio as an output
-    LD_ratio = Res.CLwing/(Res.CDwing + data.CD_AW);
+    LD_ratio = Res.CLwing/(Res.CDwing + CD_AW);
 
 catch
     % Return arbitrarily bad results
